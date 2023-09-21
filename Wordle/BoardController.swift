@@ -61,11 +61,12 @@ class BoardController: NSObject,
   // Tip 4: You will need to cast the value to the correct type
   // Checkpoint: Correctly implementing this should allow you to change the number of letters in the goal word!
   private func applyNumLettersSettings(with settings: [String: Any]) {
-    // START YOUR CODE HERE
-    // ...
-    // END YOUR CODE HERE
+    if let numLetters = settings[kNumLettersKey] as? Int {
+        numItemsPerRow = numLetters
+    } else {
+        numItemsPerRow = 4
+    }
   }
-  
   // Exercise 2: Implement applyNumGuessesSettings to change the number of rows in the board
   // Tip 1: Use a breakpoint to inspect or print the `settings` argument
   // Tip 2: There is a constant `kNumGuessesKey` in Constants.swift that you can use as the key to grab the value in the dictionary
@@ -75,6 +76,11 @@ class BoardController: NSObject,
   private func applyNumGuessesSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
     // ...
+      if let numGuesses = settings[kNumGuessesKey] as? Int {
+          numRows = numGuesses
+      } else {
+          numRows = 6
+      }
     // END YOUR CODE HERE
   }
   
@@ -87,8 +93,12 @@ class BoardController: NSObject,
   // to check the before/after value of goalWord and see if it changes to the correct theme
   private func applyThemeSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
-    // ...
+      if let rawTheme = settings[kWordThemeKey] as? String,
+             let theme = WordTheme(rawValue: rawTheme){
+                 goalWord = WordGenerator.generateGoalWord(with: theme)
+             }
     // END YOUR CODE HERE
+      
   }
   
   // Exercise 4: Implement applyIsAlienWordleSettings to change the goal word after each guess
